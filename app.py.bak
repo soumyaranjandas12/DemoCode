@@ -2,14 +2,14 @@ from flask import Flask, request
 from books import Books
 
 
-app = Flask(__name__)
+APP = Flask(__name__)
 
 
 def main():
-    app.run(host='127.0.0.1', port=8081, threaded=True)
+    APP.run(host='127.0.0.1', port=8081, threaded=True)
 
 
-@app.route('/getbookdetails', methods=['GET'])
+@APP.route('/getbookdetails', methods=['GET'])
 def find_books() -> None:
     gutenberg_id = request.args.get('book_id').split(',') if \
         request.args.get('book_id') is not None else None

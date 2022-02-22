@@ -45,7 +45,7 @@ class Books(object):
         if self.authors:
             sql = sql + ' WHERE '
             for author in self.authors:
-                sql = sql + "lower(p.name) LIKE '%" + author.lower() + "%' OR "
+                sql = sql + "p.name LIKE '%" + author + "%' OR "
                 sql = sql[0:-4]
         sql = sql + ';'
         self.author_df = pd.read_sql(sql, db)
@@ -75,11 +75,8 @@ class Books(object):
             subject_sql = subject_sql + ' WHERE '
             bookshelf_sql = bookshelf_sql + ' WHERE '
             for topic in self.topics:
-                subject_sql = subject_sql + "lower(p.name) LIKE '%" + \
-                              topic.lower() + \
-                              "%' OR "
-                bookshelf_sql = bookshelf_sql + "lower(p.name) LIKE '%" + \
-                                topic.lower() + \
+                subject_sql = subject_sql + "p.name LIKE '%" + topic + "%' OR "
+                bookshelf_sql = bookshelf_sql + "p.name LIKE '%" + topic + \
                                 "%' OR "
             subject_sql = subject_sql[0:-4]
             bookshelf_sql = bookshelf_sql[0:-4]
@@ -112,7 +109,7 @@ class Books(object):
             else:
                 sql = sql + ' WHERE '
             for title in self.titles:
-                sql = sql + "lower(title) LIKE '%" + title.lower() + "%' OR "
+                sql = sql + "title LIKE '%" + title + "%' OR "
                 sql = sql[0:-4]
         sql = sql + ';'
         self.books_df = pd.read_sql(sql, db)
@@ -161,6 +158,7 @@ class Books(object):
         book_list_to_send = list(book_id_list)[start_record:end_record]
         self.final_df['Selected'] = self.final_df.Book_Id.isin(
             book_list_to_send).astype(int)
+        self.final_df.to_csv('D:/Test.csv')
         self.final_df = self.final_df[self.final_df['Selected'] == 1]
         self.final_df = self.final_df.drop_duplicates()
         book_list = []
