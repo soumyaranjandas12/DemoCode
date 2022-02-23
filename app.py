@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from books import Books
 
 
@@ -8,7 +8,9 @@ app = Flask(__name__)
 def main():
     app.run(host='127.0.0.1', port=8081, threaded=True)
 
-
+@app.route('/', methods=['GET'])
+def weocome() -> None:
+    return jsonify({"Hello and welcome. Please use the url 'http://127.0.0.1:8081/getbookdetails' to view the details of the Books."})
 @app.route('/getbookdetails', methods=['GET'])
 def find_books() -> None:
     gutenberg_id = request.args.get('book_id').split(',') if \
